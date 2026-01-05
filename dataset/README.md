@@ -77,6 +77,26 @@ The percentage of the total land area of a country covered by forests. Forest
 cover is a critical indicator of biodiversity and carbon sequestration, with
 reductions often linked to deforestation and habitat loss.
 
+## Preliminary Data Questions & Observations
+
+### Precise location and time of measurements unknown
+
+The dataset doesn't contain any information to indicate the exact geolocation
+each data point was taken from, nor what time the data was recorded at.
+
+Several questions are raised:
+
+- Q: Are data points averages for a region/country in a particular year?
+- Q: Or are they raw observations recorded from arbitrary locations and at
+  arbitrary times?
+
+The existence of fields such as "Forest Area (%)" and "Renewable Energy (%)"
+implies that data points _might_ be regional averages. However, that remains to
+be determined.
+
+- Q: If there exist multiple data points for a region/country for the same year,
+  what does that imply?
+
 ## Applications
 
 ### Climate Research
