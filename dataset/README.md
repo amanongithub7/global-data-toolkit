@@ -88,7 +88,7 @@ Several questions are raised:
 
 - Q: Are data points averages for a region/country in a particular year?
 - Q: Or are they raw observations recorded from arbitrary locations and at
-  arbitrary times?
+  arbitrary times, potentially multiple times a year?
 
 The existence of fields such as "Forest Area (%)" and "Renewable Energy (%)"
 implies that data points _might_ be regional averages. However, that remains to
