@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "globalclimateanalysis"
+requires-python = ">= 3.0"
+description = "Analyzing global climate trends from country-specific records between 2000 and 2024."
+readme = "README.md"
+version = "0.1.0.dev0"
+
+[tool.setuptools.packages.find]
+where = ["src"] # find and index packages from src/
+
+[tool.setuptools.package-dir]
+"" = "src" # map root package dir to scr/
