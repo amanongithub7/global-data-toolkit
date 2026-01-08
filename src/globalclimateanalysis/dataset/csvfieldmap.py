@@ -12,7 +12,7 @@ field_to_snake_case = {
 }
 
 
-def convert_field_name_to_snake_case(csv_field: str) -> str:
+def convert_csv_field_name_to_snake_case(csv_field: str) -> str:
     """
     convert_field_name_to_snake_case takes in a field name from the csv file, and
     returns a snake_case version of the name.
