@@ -6,3 +6,4 @@ data/climate_2000_2024.csv
 
 # all __pycache__ directories
 src/**/__pycache__/
+**/__pycache__/
