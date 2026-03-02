@@ -1,5 +1,5 @@
-# data csv file
-data/climate_2000_2024.csv
+# data dir which contains the original csv file and generated per-country csvs
+data/
 
 # build artifcats
 **.egg-info
@@ -7,3 +7,4 @@ data/climate_2000_2024.csv
 # all __pycache__ directories
 src/**/__pycache__/
 **/__pycache__/
+
