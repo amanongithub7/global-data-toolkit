@@ -2,7 +2,7 @@
 
 Rough program notes for this project.
 
-## Package (`globalclimateanalysis`)
+## `globalclimateanalysis`
 
 ### `dataset`
 
@@ -30,6 +30,16 @@ modules:
 - prints stats at the end of generation
 - dir for storing generated files -> provided by user otherwise
   `~/dataset/gca2000-2024/`
+
+  ###### `generate()` method
+  - Responsible for generating per-country csv files
+
+  Logic:
+  1. checks if files already exist (using other method). if they do, return
+     true.
+  2. use class' pd DataFrame - loop through and make dataframes for each country
+  3. export dataframes into csvs and store in {data_dir}/by_country/ dir. Return
+     true.
 
 ##### `class Loader`
 

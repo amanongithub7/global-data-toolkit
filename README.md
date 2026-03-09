@@ -7,7 +7,7 @@ Refer to `dataset/README.md` for information about the
 [dataset](https://www.openml.org/search?type=data&sort=qualities.NumberOfInstances&status=active&id=46731)
 sourced from OpenML.
 
-## Development 🧑‍💻
+## Usage & Development 🧑‍💻
 
 ### Installing the Package in Editable Mode 💾
 

@@ -1,5 +1,7 @@
 import os
 
+import pandas as pd
+
 
 class Generator:
     """
@@ -9,16 +11,18 @@ class Generator:
     ...
     Attributes
     ----------
-    csv_file_path : str
-        directory where original csv file containing climate records for different countries is present
+    data : pandas.DataFrame
+        a DataFrame containing the unfiltered, raw csv data
     data_dir : str , optional
-        the directory where generated per-country csv files can be stored, defaults to "./data"
-
+        the directory where generated per-country csv files should be stored, defaults to "./data"
     Methods
     -------
     _files_already_exist() --> bool:
         returns True if csv files for countries seem to exist, and False otherwise.
     """
+
+    data: pd.DataFrame
+    data_dir: str
 
     def __init__(self, csv_file_path: str, data_dir: str = "./data") -> None:
         # if the file extension is not ".csv", raise a ValueError
@@ -32,6 +36,12 @@ class Generator:
         # NOTE: open() accepts both relative and absolute file paths
         _ = open(csv_file_path)
 
+        # load csv data into a pandas.DataFrame object
+        self.data = pd.read_csv(csv_file_path)
+
+        # first check if dir exists
+        self.data_dir = data_dir
+
     # TODO:
     def _files_already_exist(self) -> bool:
         """
@@ -44,6 +54,27 @@ class Generator:
             `
         """
         return False
+
+    def generate(self):
+        """
+        Generate per country CSV files, if they don't already exist. Store them in {data_dir}/by_country/.
+
+        Raises:
+        """
+
+        # to get all unique values (countries) from a df in a numpyr array
+        # unique_B = df['B'].unique()
+
+        # check if any files exist in {data_dir}/by_country/ or if dir itself exists
+        # if files exist but # of files != # of unique countries, call clean method to clean the by_country/ dir
+        # otherwise create by_country/ dir if it doesn't exist
+
+        # for each country in countries,
+        # get subset DF for the country
+        #   to generate sub-set of DF based on a column value:
+        #   https://stackoverflow.com/questions/51004029/create-a-new-dataframe-based-on-rows-with-a-certain-value#51004086
+
+        # save DF as csv file in {data_dir}/by_country/ with name *country*.csv
 
     # TODO: clean method cleans files if they are incomplete/invalid
     # def clean(self) --> None:
