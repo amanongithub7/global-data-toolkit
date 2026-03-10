@@ -9,6 +9,24 @@ sourced from OpenML.
 
 ## Usage & Development 🧑‍💻
 
+### Setting Up the Conda Environment 🐍
+
+The Conda environment containing the Python version and required packages is
+stored in `env.yml`. In order to replicate this environment, run either one of
+these two commands in the command line:
+
+1. if you want to keep the env name global-climate-analysis:
+
+```bash
+ conda env create -f env.yml
+```
+
+2. or if you want to set your own env name:
+
+```bash
+ conda env create -f environment.yml -n my_new_env_name
+```
+
 ### Installing the Package in Editable Mode 💾
 
 In order to import the `globalclimateanalysis` package in python scripts and
