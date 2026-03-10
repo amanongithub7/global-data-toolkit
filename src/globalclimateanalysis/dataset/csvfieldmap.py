@@ -13,21 +13,26 @@ field_to_snake_case = {
 
 
 def convert_csv_field_name_to_snake_case(csv_field: str) -> str:
-    """
-    convert_field_name_to_snake_case takes in a field name from the csv file, and
+    """convert csv column headings to snake_case.
+    convert_field_name_to_snake_case takes in a column heading from the csv file, and
     returns a snake_case version of the name.
 
-    Args:
-        csv_field: field name provided in the csv.
+    Parameters
+    ----------
+    csv_field: str
+        field name provided in the csv.
 
-    Returns:
-        Snake case version of the string.
+    Returns
+    -------
+    String in snake_case.
 
-    Raises:
-        KeyError: if csv_field is not present in the string map.
+    Raises
+    ------
+    KeyError if csv_field is not present in the string map.
 
-    Example:
-        >>> print(convert_field_name_to_snake_case("Avg Temperature (°C)"))
-        "avg_temp_deg_c"
+    Example
+    -------
+    >>> print(convert_field_name_to_snake_case("Avg Temperature (°C)"))
+    "avg_temp_deg_c"
     """
     return field_to_snake_case[csv_field]

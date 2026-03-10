@@ -4,11 +4,11 @@ import pandas as pd
 
 
 class Generator:
-    """
+    """Generates per-country csv files from combined data csv.
+
     Generates csv files for each country's records present in the csv data file, and stores intermittent variables such as
     the path of the csv file and a pandas' DataFrame containing the csv data.
 
-    ...
     Attributes
     ----------
     data : pandas.DataFrame
@@ -18,13 +18,35 @@ class Generator:
     Methods
     -------
     _files_already_exist() --> bool:
-        returns True if csv files for countries seem to exist, and False otherwise.
+        returns True if csv files for countries in the main data csv seem to exist, and False otherwise.
     """
 
     data: pd.DataFrame
     data_dir: str
 
     def __init__(self, csv_file_path: str, data_dir: str = "./data") -> None:
+        """Validate params and initialize Generator with a pandas.DataFrame and directory string.
+        Initialize the Generator class once a few checks are done:
+            1. param csv_file_path represents a csv file
+            2. csv_file_path exists
+            3. data_dir exists
+
+        Upon validation, self.data is populated with a pandas.DataFrame version of the csv, and
+        an absolute path for self.data_dir for storage of per-country csv files.
+
+        Parameters
+        ----------
+        csv_file_path: str
+            path of the main csv file with climate data of different countries.
+        data_dir: str, optional
+            directory where the bycountry/ folder of csvs should be stored, defaults to "./data".
+        Raises
+        ------
+        ValueError
+            if csv_file_path doesn't specify a .csv file.
+        FileNotFoundError
+            if the file indicated by csv_file_path doesn't exist, or the directory indicated by data_dir doesn't exist.
+        """
         # if the file extension is not ".csv", raise a ValueError
         _, ext = os.path.splitext(csv_file_path)
         if ext != ".csv":
@@ -43,24 +65,22 @@ class Generator:
         self.data_dir = data_dir
 
     # TODO:
-    def _files_already_exist(self) -> bool:
-        """
-        Check if per country csvs already exist.
+    def _files_already_exist(self, countries: set) -> bool:
+        """Check if per-country csvs already exist in the data_dir.
 
-        Returns:
-            `True` if csvs' dir exists and # of csvs match # of countries in dataset and `False` otherwise
-
-        Raises:
-            `
+        Parameters
+        ----------
+        countries: set
+            countries to verify files stored in {data_dir}/bycountry/ against.
+        Returns
+        -------
+        True if {data_dir}/bycountry/ exists and contains exactly the same countries as in the main csv.
+        False otherwise.
         """
         return False
 
     def generate(self):
-        """
-        Generate per country CSV files, if they don't already exist. Store them in {data_dir}/by_country/.
-
-        Raises:
-        """
+        """Generate per country CSV files, if they don't already exist. Store them in {data_dir}/bycountry/."""
 
         # to get all unique values (countries) from a df in a numpyr array
         # unique_B = df['B'].unique()
