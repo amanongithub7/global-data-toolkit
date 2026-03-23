@@ -41,6 +41,11 @@ modules:
   3. export dataframes into csvs and store in {data_dir}/by_country/ dir. Return
      true.
 
+###### Tests
+
+- make sure test for the column headings in generated `bycountry/` csvs -> they
+  must be all headings in original csv except for "country"
+
 ##### `class Loader`
 
 - `get_countries()` method that returns list of countries

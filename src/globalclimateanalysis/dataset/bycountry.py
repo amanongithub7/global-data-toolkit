@@ -13,8 +13,8 @@ class Generator:
     ----------
     data : pandas.DataFrame
         a DataFrame containing the unfiltered, raw csv data
-    data_dir : str , optional
-        the directory where generated per-country csv files should be stored, defaults to "./data"
+    bycountry_data_dir : str
+        the directory where generated per-country csv files should be stored, defaults to "./data/bycountry/" when a path is not provided upon class init
     Methods
     -------
     _files_already_exist() --> bool:
@@ -22,11 +22,14 @@ class Generator:
     """
 
     data: pd.DataFrame
-    data_dir: str
+    bycountry_data_dir: str | os.PathLike
 
-    def __init__(self, csv_file_path: str, data_dir: str = "./data") -> None:
+    def __init__(
+        self, csv_file_path: str, data_dir: str | os.PathLike = "./data"
+    ) -> None:
         """Validate params and initialize Generator with a pandas.DataFrame and directory string.
-        Initialize the Generator class once a few checks are done:
+
+        Initialize the Generator class once a few checks are performed:
             1. param csv_file_path represents a csv file
             2. csv_file_path exists
             3. data_dir exists
@@ -39,7 +42,7 @@ class Generator:
         csv_file_path: str
             path of the main csv file with climate data of different countries.
         data_dir: str, optional
-            directory where the bycountry/ folder of csvs should be stored, defaults to "./data".
+            directory where the bycountry/ folder of csvs should be created, defaults to "./data".
         Raises
         ------
         ValueError
@@ -47,22 +50,34 @@ class Generator:
         FileNotFoundError
             if the file indicated by csv_file_path doesn't exist, or the directory indicated by data_dir doesn't exist.
         """
-        # if the file extension is not ".csv", raise a ValueError
+
+        # if the file extension is not ".csv", a ValueError is raised since this module only accepts csv type files
         _, ext = os.path.splitext(csv_file_path)
         if ext != ".csv":
             raise ValueError(
                 f"The provided file '{csv_file_path}' must be a '.csv' file path (absolute or relative)."
             )
 
-        # if the file doesn't exist, `open()` raises a FileNotFoundError
-        # NOTE: open() accepts both relative and absolute file paths
-        _ = open(csv_file_path)
+        # if the file doesn't exist, terminate the program with a FileNotFoundError
+        if not os.path.exists(csv_file_path):
+            raise FileNotFoundError(
+                f"The provided file '{csv_file_path}' does not exist."
+            )
 
-        # load csv data into a pandas.DataFrame object
         self.data = pd.read_csv(csv_file_path)
 
-        # first check if dir exists
-        self.data_dir = data_dir
+        # if the directory for storing per-country csv files doesn't exist,
+        if not os.path.isdir(data_dir):
+            # either create the directory if the client has chosen the default dir
+            if data_dir == "./data":
+                os.mkdir("./data")
+            # or else raise a FileNotFoundError if the client has specified a non-existent dir
+            else:
+                raise FileNotFoundError(
+                    f"The provided directory '{data_dir}' does not exist."
+                )
+
+        self.bycountry_data_dir = os.path.join(os.path.abspath(data_dir), "bycountry")
 
     # TODO:
     def _files_already_exist(self, countries: set) -> bool:
