@@ -24,7 +24,7 @@ class Generator:
     """
 
     bycountry_data_dir: str | os.PathLike
-    countries: npt.NDArray[np.str_]
+    countries: set[str]
     data: pd.DataFrame
 
     def __init__(
@@ -69,7 +69,7 @@ class Generator:
 
         self.data = pd.read_csv(csv_file_path)
         if "Country" in self.data:
-            self.countries = self.data["Country"].unique()
+            self.countries = set(self.data["Country"].unique())
         else:
             raise KeyError(
                 "A 'Country' column is expected in the provided .csv file for generation of per-country files. Please make sure it exists."
@@ -91,6 +91,8 @@ class Generator:
                     f"The provided directory '{data_dir}' does not exist."
                 )
 
+        # note that this directory path is stored here, we don't create the directory (if it doesn't exist) ...
+        # ... that is deferred to the generate_country_csv_files method
         self.bycountry_data_dir = os.path.join(os.path.abspath(data_dir), "bycountry")
 
     # TODO:

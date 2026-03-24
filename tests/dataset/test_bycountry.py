@@ -100,7 +100,20 @@ class TestGeneratorInit(unittest.TestCase):
                 "The provided directory './nonexisting' does not exist.",
             )
 
-    def test_succeeds_on_valid_csv_and_data_dir_args(self):
+    def test_success_and_default_dir_creation_on_no_data_dir_arg(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            test_dir = os.path.dirname(os.path.abspath(__file__))
+            test_csv_path = os.path.join(
+                test_dir, "bycountry", "valid_csv_8_countries.csv"
+            )
+            shutil.copy(test_csv_path, tmpdir)
+            os.chdir(tmpdir)
+
+            _ = bycountry.Generator("valid_csv_8_countries.csv")
+
+            self.assertTrue(os.path.isdir("./data"))
+
+    def test_success_on_valid_csv_and_data_dir_args(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             test_dir = os.path.dirname(os.path.abspath(__file__))
             test_csv_path = os.path.join(
