@@ -1,5 +1,7 @@
 import os
 
+import numpy as np
+import numpy.typing as npt
 import pandas as pd
 
 
@@ -21,8 +23,9 @@ class Generator:
         returns True if csv files for countries in the main data csv seem to exist, and False otherwise.
     """
 
-    data: pd.DataFrame
     bycountry_data_dir: str | os.PathLike
+    countries: npt.NDArray[np.str_]
+    data: pd.DataFrame
 
     def __init__(
         self, csv_file_path: str, data_dir: str | os.PathLike = "./data"
@@ -65,6 +68,17 @@ class Generator:
             )
 
         self.data = pd.read_csv(csv_file_path)
+        if "Country" in self.data:
+            self.countries = self.data["Country"].unique()
+        else:
+            raise KeyError(
+                "A 'Country' column is expected in the provided .csv file for generation of per-country files. Please make sure it exists."
+            )
+
+        if len(self.countries) <= 1:
+            raise ValueError(
+                "The provided csv file contains less than 2 countries. Generating per-country csvs is redundant."
+            )
 
         # if the directory for storing per-country csv files doesn't exist,
         if not os.path.isdir(data_dir):
