@@ -1,7 +1,5 @@
 import os
 
-import numpy as np
-import numpy.typing as npt
 import pandas as pd
 
 
@@ -96,19 +94,41 @@ class Generator:
         self.bycountry_data_dir = os.path.join(os.path.abspath(data_dir), "bycountry")
 
     # TODO:
-    def _files_already_exist(self, countries: set) -> bool:
+    def _files_already_exist(self) -> bool:
         """Check if per-country csvs already exist in the data_dir.
 
-        Parameters
-        ----------
-        countries: set
-            countries to verify files stored in {data_dir}/bycountry/ against.
+        Performs a shallow check to determine if number and names of csv files in the bycountry directory match
+        number and names of countries in the main csv file.
+
+        Note: this doesn't check the contents or lengths of the csv files.
         Returns
         -------
         True if {data_dir}/bycountry/ exists and contains exactly the same countries as in the main csv.
         False otherwise.
         """
-        return False
+        if not os.path.isdir(self.bycountry_data_dir):
+            return False
+
+        dir_files: list[str] = os.listdir(self.bycountry_data_dir)
+
+        # 1. check if # of files in the bycountry/ dir = # of countries in csv file
+        if len(dir_files) != len(self.countries):
+            return False
+
+        # remove file extension before comparison with set of countries
+        csv_suffix = ".csv"
+        countries_with_files: list[str] = []
+        for file in dir_files:
+            if file.lower().endswith(csv_suffix.lower()):
+                countries_with_files.append(file[0 : -len(csv_suffix)])
+
+        # 2. check if each country in the csv file is in the dbycountry/ dir
+        for country in self.countries:
+            if country not in countries_with_files:
+                return False
+
+        # 3. return True ("files already exist") if both conditions are met
+        return True
 
     def generate(self):
         """Generate per country CSV files, if they don't already exist. Store them in {data_dir}/bycountry/."""

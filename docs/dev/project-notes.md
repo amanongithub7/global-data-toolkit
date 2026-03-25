@@ -18,6 +18,19 @@ modules:
 
 ##### `class Generator`
 
+Order of per-country file generation:
+
+1. validate csv file and directory for generated files storage (`__init__`)
+2. check if per-country csvs already exist
+
+- if they do, don't generate new csvs
+- if they don't, clean the per-country dir if it exists and then do generate new
+  csvs
+
+3. generatio
+
+###### **init** constructor
+
 `__init__` params:
 
 1. csv_file_path : str (no default)

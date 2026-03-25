@@ -125,3 +125,98 @@ class TestGeneratorInit(unittest.TestCase):
             os.mkdir("./existent_data_dir")
 
             _ = bycountry.Generator("valid_csv_8_countries.csv", "./existent_data_dir")
+
+
+class TestGeneratorFilesAlreadyExist(unittest.TestCase):
+    """Test cases for Generator class' _files_already_exist() method"""
+
+    def test_returns_false_when_num_files_not_equal_to_num_countries(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            test_dir = os.path.dirname(os.path.abspath(__file__))
+            test_csv_path = os.path.join(
+                test_dir, "bycountry", "valid_csv_8_countries.csv"
+            )
+            shutil.copy(test_csv_path, tmpdir)
+
+            os.chdir(tmpdir)
+
+            # default relative dir used by Generator to store per-country csv files
+            os.mkdir("./data")
+
+            os.mkdir("./data/bycountry")
+
+            g = bycountry.Generator("valid_csv_8_countries.csv")
+
+            self.assertFalse(g._files_already_exist())
+
+    def test_returns_false_equal_num_files_countries_but_missing_country(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            test_dir = os.path.dirname(os.path.abspath(__file__))
+            test_csv_path = os.path.join(
+                test_dir, "bycountry", "valid_csv_8_countries.csv"
+            )
+            shutil.copy(test_csv_path, tmpdir)
+
+            os.chdir(tmpdir)
+
+            # default relative dir used by Generator to store per-country csv files
+            os.mkdir("./data")
+
+            os.mkdir("./data/bycountry")
+
+            # create 8 country csv files that don't match with the countries in the csv
+            countries_with_files = {
+                "Argentina",
+                "Brazil",
+                "China",
+                "France",
+                "India",
+                "Palestine",
+                "South Africa",
+                "UK",
+            }
+            for country in countries_with_files:
+                filepath = f"./data/bycountry/{country}.csv"
+                with open(filepath, "w") as f:
+                    f.write("header1,header2\n")
+                    f.write("value1,value2\n")
+
+            g = bycountry.Generator("valid_csv_8_countries.csv")
+
+            self.assertFalse(g._files_already_exist())
+
+    def test_returns_true_files_and_countries_matching(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            test_dir = os.path.dirname(os.path.abspath(__file__))
+            test_csv_path = os.path.join(
+                test_dir, "bycountry", "valid_csv_8_countries.csv"
+            )
+            shutil.copy(test_csv_path, tmpdir)
+
+            os.chdir(tmpdir)
+
+            # default relative dir used by Generator to store per-country csv files
+            os.mkdir("./data")
+
+            os.mkdir("./data/bycountry")
+
+            # create 8 country csv files that match with the countries in the csv
+            countries_with_files = {
+                "Argentina",
+                "Australia",
+                "China",
+                "France",
+                "Germany",
+                "South Africa",
+                "UK",
+                "USA",
+            }
+            for country in countries_with_files:
+                filepath = f"./data/bycountry/{country}.csv"
+                with open(filepath, "w") as f:
+                    f.write("header1,header2\n")
+                    f.write("value1,value2\n")
+
+            g = bycountry.Generator("valid_csv_8_countries.csv")
+
+            self.assertTrue(g._files_already_exist())
