@@ -220,3 +220,59 @@ class TestGeneratorFilesAlreadyExist(unittest.TestCase):
             g = bycountry.Generator("valid_csv_8_countries.csv")
 
             self.assertTrue(g._files_already_exist())
+
+
+class TestGeneratorCleanStorage(unittest.TestCase):
+    """Test cases for the _clean_storage() method of the Generator class"""
+
+    def test_deletes_all_files_from_bycountry_storage(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            test_dir = os.path.dirname(os.path.abspath(__file__))
+            test_csv_path = os.path.join(
+                test_dir, "bycountry", "valid_csv_8_countries.csv"
+            )
+            shutil.copy(test_csv_path, tmpdir)
+
+            os.chdir(tmpdir)
+
+            os.mkdir("./data")
+            os.mkdir("./data/bycountry")
+
+            storage_files = ["Cambodia", "Ireland", "Senegal"]
+            for file in storage_files:
+                filepath = f"./data/bycountry/{file}.csv"
+                with open(filepath, "w") as f:
+                    f.write("header1,header2\n")
+                    f.write("value1,value2\n")
+
+            g = bycountry.Generator("valid_csv_8_countries.csv")
+            g._clean_storage()
+
+            dir_contents = os.listdir("./data/bycountry")
+            self.assertTrue(len(dir_contents) == 0)
+
+    def test_deletes_all_files_from_storage_custom_dir(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            test_dir = os.path.dirname(os.path.abspath(__file__))
+            test_csv_path = os.path.join(
+                test_dir, "bycountry", "valid_csv_8_countries.csv"
+            )
+            shutil.copy(test_csv_path, tmpdir)
+
+            os.chdir(tmpdir)
+
+            os.mkdir("./data_folder")
+            os.mkdir("./data_folder/bycountry")
+
+            storage_files = ["Cambodia", "Ireland", "Senegal"]
+            for file in storage_files:
+                filepath = f"./data_folder/bycountry/{file}.csv"
+                with open(filepath, "w") as f:
+                    f.write("header1,header2\n")
+                    f.write("value1,value2\n")
+
+            g = bycountry.Generator("valid_csv_8_countries.csv", "./data_folder")
+            g._clean_storage()
+
+            dir_contents = os.listdir("./data_folder/bycountry")
+            self.assertTrue(len(dir_contents) == 0)

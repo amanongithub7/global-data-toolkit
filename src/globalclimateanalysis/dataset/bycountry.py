@@ -1,4 +1,5 @@
 import os
+import shutil
 
 import pandas as pd
 
@@ -129,6 +130,33 @@ class Generator:
 
         # 3. return True ("files already exist") if both conditions are met
         return True
+
+    def _clean_storage(self):
+        """Clean the per-country csv storage directory.
+
+        Remove any files inside the directory."""
+
+        if not os.path.isdir(self.bycountry_data_dir):
+            return
+
+        dir_files: list[str] = os.listdir(self.bycountry_data_dir)
+
+        if len(dir_files) == 0:
+            return
+        else:
+            for file in dir_files:
+                file_path = os.path.join(self.bycountry_data_dir, file)
+                try:
+                    if os.path.isfile(file_path) or os.path.islink(file_path):
+                        os.unlink(file_path)
+                    elif os.path.isdir(file_path):
+                        shutil.rmtree(file_path)
+                except Exception as e:
+                    print(
+                        "Clean up during per-country file generation failed. Failed to delete %s. Reason: %s. \
+                        Clear the %s folder and try again."
+                        % (file, self.bycountry_data_dir, e)
+                    )
 
     def generate(self):
         """Generate per country CSV files, if they don't already exist. Store them in {data_dir}/bycountry/."""
