@@ -1,7 +1,11 @@
+import logging
 import os
 import shutil
 
 import pandas as pd
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(filename="bycountry.log", level=logging.INFO)
 
 
 class Generator:
@@ -134,7 +138,8 @@ class Generator:
     def _clean_storage(self):
         """Clean the per-country csv storage directory.
 
-        Remove any files inside the directory."""
+        Remove any files inside the directory.
+        """
 
         if not os.path.isdir(self.bycountry_data_dir):
             return
@@ -152,7 +157,7 @@ class Generator:
                     elif os.path.isdir(file_path):
                         shutil.rmtree(file_path)
                 except Exception as e:
-                    print(
+                    logger.critical(
                         "Clean up during per-country file generation failed. Failed to delete %s. Reason: %s. \
                         Clear the %s folder and try again."
                         % (file, self.bycountry_data_dir, e)
