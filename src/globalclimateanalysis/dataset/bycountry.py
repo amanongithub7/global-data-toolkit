@@ -4,8 +4,10 @@ import shutil
 
 import pandas as pd
 
+# Create logs directory if it doesn't exist
+os.mkdir("logs")
 logger = logging.getLogger(__name__)
-logging.basicConfig(filename="bycountry.log", level=logging.INFO)
+logging.basicConfig(filename="logs/bycountry.log", level=logging.INFO)
 
 
 class Generator:
@@ -165,20 +167,27 @@ class Generator:
 
     def generate(self):
         """Generate per country CSV files, if they don't already exist. Store them in {data_dir}/bycountry/."""
+        if not os.path.isdir(self.bycountry_data_dir):
+            # if per-country file storage directory doesn't exist, create it and proceed to file generation
+            os.mkdir(self.bycountry_data_dir)
+        elif self._files_already_exist():
+            # if all files already exist, dont generate anything
+            logger.info(
+                "Generated files already exist in %s and are ready to be Loaded. Run Generator's `_clean_storage` method if clean up is required."
+                % (self.bycountry_data_dir)
+            )
+            return
+        else:
+            # clean any files that may exist
+            self._clean_storage()
 
-        # to get all unique values (countries) from a df in a numpyr array
-        # unique_B = df['B'].unique()
+        for country in self.countries:
+            # get subset DF for the country
+            country_df = self.data[self.data.Country == country]
 
-        # check if any files exist in {data_dir}/by_country/ or if dir itself exists
-        # if files exist but # of files != # of unique countries, call clean method to clean the by_country/ dir
-        # otherwise create by_country/ dir if it doesn't exist
+            # remove the country column from the country DataFrame
+            country_df = country_df.drop(columns=["Country"])
 
-        # for each country in countries,
-        # get subset DF for the country
-        #   to generate sub-set of DF based on a column value:
-        #   https://stackoverflow.com/questions/51004029/create-a-new-dataframe-based-on-rows-with-a-certain-value#51004086
-
-        # save DF as csv file in {data_dir}/by_country/ with name *country*.csv
-
-    # TODO: clean method cleans files if they are incomplete/invalid
-    # def clean(self) --> None:
+            # then save the DF as csv file in {data_dir}/by_country/ with name *country*.csv
+            country_csv_path = os.path.join(self.bycountry_data_dir, country + ".csv")
+            country_df.to_csv(country_csv_path, index=False)

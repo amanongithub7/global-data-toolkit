@@ -1,6 +1,10 @@
 # data dir which contains the original csv file and generated per-country csvs
 data/
 
+# logs dir and files
+logs/
+*.log
+
 # build artifcats
 **.egg-info
 
