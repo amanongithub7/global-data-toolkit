@@ -4,10 +4,13 @@ import shutil
 
 import pandas as pd
 
-# Create logs directory if it doesn't exist
-os.mkdir("logs")
+# create logs directory if it doesn't exist
+if not os.path.exists("logs"):
+    os.mkdir("logs")
 logger = logging.getLogger(__name__)
-logging.basicConfig(filename="logs/bycountry.log", level=logging.INFO)
+logging.basicConfig(
+    filename="logs/bycountry.log", format="%(asctime)s %(message)s", level=logging.INFO
+)
 
 
 class Generator:
