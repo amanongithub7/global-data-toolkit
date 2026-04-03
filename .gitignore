@@ -12,3 +12,5 @@ logs/
 src/**/__pycache__/
 **/__pycache__/
 
+# notes that dont need to be committed
+docs/dev/tests-refactor.md

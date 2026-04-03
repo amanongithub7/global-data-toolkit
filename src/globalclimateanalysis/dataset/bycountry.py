@@ -1,6 +1,7 @@
 import logging
 import os
 import shutil
+from collections.abc import Mapping
 
 import pandas as pd
 
@@ -203,3 +204,46 @@ class Generator:
             country_df.to_csv(country_csv_path, index=False)
 
         return self.bycountry_data_dir, self.countries
+
+
+class DataLoader:
+    """Interface for generating per-country csv files and loading them into runtime memory.
+
+    DataLoader wraps the Generator class' processing of the csv containing data from multiple countries into
+    individual csv files, and returns it in runtime memory as a dictionary of pandas.DataFrame.
+
+    Attributes
+    ----------
+    storage_dir : str
+        path of directory in which csv files of individual countries are stored
+
+    Example
+    --------
+    >>> from globalclimateanalysis.bycountry import DataLoader
+    >>> per_country_data_loader = DataLoader("./climate_data.csv")
+    >>> country_data = per_country_data_loader.load()
+    >>> type(country_data)
+    Dict[str, pandas.DataFrame]
+    """
+
+    def __init__(
+        self, csv_path: str, data_generation_dir: str | os.PathLike = "./data"
+    ):
+        g = Generator(csv_path, data_generation_dir)
+        self.storage_dir, self.countries = g.generate()
+
+    def load(self):
+        """load per-country data into runtime memory as pandas.DataFrame objects
+
+        Returns
+        -------
+        Mapping[str, pandas.DataFrame]
+            country to country data dictionary
+        """
+        data_map: Mapping[str, pd.DataFrame] = {}
+        for country in self.countries:
+            csv_path = os.path.join(self.storage_dir, country + ".csv")
+            country_df = pd.read_csv(csv_path)
+            data_map[country] = country_df
+
+        return data_map

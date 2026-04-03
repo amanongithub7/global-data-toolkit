@@ -2,6 +2,10 @@
 
 Rough program notes for this project.
 
+> [!WARNING] These notes don't perfectly describe class/function behavior. They
+> are used to brainstorm rough roadmaps. For the most accurate descriptions of
+> classes and functions, refer to their docstrings.
+
 ## `globalclimateanalysis`
 
 ### `dataset`
@@ -59,18 +63,10 @@ Order of per-country file generation:
 - make sure test for the column headings in generated `bycountry/` csvs -> they
   must be all headings in original csv except for "country"
 
-##### `class Loader`
+##### Wrapper: `class DataLoader`
 
-- `get_countries()` method that returns list of countries
-- `load()` method that loads csvs into dataframes and returns dict of
-  `country (str)` -> `country_records (pandas.DataFrame)`
-  - optional `countries` str[] argument to load subset of countries
-- if files don't exist?
-
-##### Facade: `class DataLoader`
-
-- facade for `Generator` and `Loader` classes
-- `load` method returns dict of dataframes
+- wrapper for `Generator` class
+- `load` method returns dict of country strings to the associated dataframes
 - `__init__` constructor:
   - initializes a Generator with arg data_path
   - calls `generate` method of Generator to generate csv by country

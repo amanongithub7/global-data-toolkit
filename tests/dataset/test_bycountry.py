@@ -2,6 +2,7 @@ import os
 import shutil
 import tempfile
 import unittest
+from collections.abc import Mapping
 
 import pandas as pd
 
@@ -393,3 +394,34 @@ class TestGeneratorGenerate(unittest.TestCase):
                 "/data/bycountry and are ready to be Loaded. Run Generator's `_clean_storage` method if clean up is required."
                 in cm.output[0]
             )
+
+
+class TestDataLoader(unittest.TestCase):
+    def test_loads_correct_shape_data_with_custom_storage_dir(self):
+        expected_data_lengths: Mapping[str, int] = {
+            "Argentina": 2,
+            "Australia": 1,
+            "China": 1,
+            "France": 1,
+            "Germany": 1,
+            "South Africa": 1,
+            "UK": 2,
+            "USA": 1,
+        }
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tests_dir = os.path.dirname(os.path.abspath(__file__))
+            test_csv_path = os.path.join(
+                tests_dir, "bycountry", "valid_csv_8_countries.csv"
+            )
+
+            shutil.copy(test_csv_path, tmpdir)
+
+            os.chdir(tmpdir)
+
+            os.mkdir("custom_storage_dir")
+
+            dl = bycountry.DataLoader("valid_csv_8_countries.csv", "custom_storage_dir")
+            loaded_data = dl.load()
+
+            for country_name, country_df in loaded_data.items():
+                self.assertEqual(expected_data_lengths[country_name], len(country_df))
