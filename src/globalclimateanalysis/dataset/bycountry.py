@@ -103,7 +103,6 @@ class Generator:
         # ... that is deferred to the generate_country_csv_files method
         self.bycountry_data_dir = os.path.join(os.path.abspath(data_dir), "bycountry")
 
-    # TODO:
     def _files_already_exist(self) -> bool:
         """Check if per-country csvs already exist in the data_dir.
 
@@ -169,7 +168,15 @@ class Generator:
                     )
 
     def generate(self):
-        """Generate per country CSV files, if they don't already exist. Store them in {data_dir}/bycountry/."""
+        """Generate per country CSV files, if they don't already exist. Store them in {data_dir}/bycountry/.
+
+        Returns
+        -------
+        str
+            directory where countries' individual csv files are stored
+        list[str]
+            list of countries for which csv files are present
+        """
         if not os.path.isdir(self.bycountry_data_dir):
             # if per-country file storage directory doesn't exist, create it and proceed to file generation
             os.mkdir(self.bycountry_data_dir)
@@ -179,7 +186,7 @@ class Generator:
                 "Generated files already exist in %s and are ready to be Loaded. Run Generator's `_clean_storage` method if clean up is required."
                 % (self.bycountry_data_dir)
             )
-            return
+            return self.bycountry_data_dir, self.countries
         else:
             # clean any files that may exist
             self._clean_storage()
@@ -194,3 +201,5 @@ class Generator:
             # then save the DF as csv file in {data_dir}/by_country/ with name *country*.csv
             country_csv_path = os.path.join(self.bycountry_data_dir, country + ".csv")
             country_df.to_csv(country_csv_path, index=False)
+
+        return self.bycountry_data_dir, self.countries
