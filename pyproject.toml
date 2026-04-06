@@ -14,3 +14,12 @@ where = ["src"] # find and index packages from src/
 
 [tool.setuptools.package-dir]
 "" = "src" # map root package dir to scr/
+
+[tool.basedpyright]
+venvPath = " /opt/miniconda3/envs"
+venv = "global-climate-analysis"
+
+[tool.basedpyright.analysis]
+typeCheckingMode = "standard"
+autoSearchPaths = true
+useLibraryCodeForTypes = true
