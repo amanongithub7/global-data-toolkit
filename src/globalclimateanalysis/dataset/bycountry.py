@@ -32,12 +32,12 @@ class Generator:
         returns True if csv files for countries in the main data csv seem to exist, and False otherwise.
     """
 
-    bycountry_data_dir: str | os.PathLike
+    bycountry_data_dir: str | os.PathLike[str]
     countries: set[str]
     data: pd.DataFrame
 
     def __init__(
-        self, csv_file_path: str, data_dir: str | os.PathLike = "./data"
+        self, csv_file_path: str, data_dir: str | os.PathLike[str] = "./data"
     ) -> None:
         """Validate params and initialize Generator with a pandas.DataFrame and directory string.
 
@@ -226,8 +226,11 @@ class DataLoader:
     Dict[str, pandas.DataFrame]
     """
 
+    storage_dir: str | os.PathLike[str]
+    countries: set[str]
+
     def __init__(
-        self, csv_path: str, data_generation_dir: str | os.PathLike = "./data"
+        self, csv_path: str, data_generation_dir: str | os.PathLike[str] = "./data"
     ):
         g = Generator(csv_path, data_generation_dir)
         self.storage_dir, self.countries = g.generate()
