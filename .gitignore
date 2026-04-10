@@ -14,3 +14,6 @@ src/**/__pycache__/
 
 # notes that dont need to be committed
 docs/dev/tests-refactor.md
+
+# jupyter notebook checkpoints
+notebooks/.ipynb_checkpoints
