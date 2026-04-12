@@ -1,13 +1,22 @@
-# Global Climate Analysis (2000-2024) 🌍
+# Global Data Toolkit 🌍
 
-This is a Python-based project that seeks to analyze global climate data between
-2000 and 2024.
+## Overview
 
-Refer to `dataset/README.md` for information about the
-[dataset](https://www.openml.org/search?type=data&sort=qualities.NumberOfInstances&status=active&id=46731)
-sourced from OpenML.
+`globaldatatoolkit` is a Python package that seeks to simplify the use of global
+datasets for data analysis and machine learning applications.
 
-## Usage & Development 🧑‍💻
+Currently, it's main module is the `bycountry` module of the `dataset`
+subpackage, which exposes a `DataLoader` interface for loading global datasets
+as per-country `pandas.DataFrames` in runtime memory.
+
+Refer to `example_notebooks/__subpackage__/` for jupyter notebooks with sample
+usage of different modules.
+
+## Usage 📊
+
+TODO
+
+## Development 🧑‍💻
 
 ### Setting Up the Conda Environment 🐍
 
@@ -15,22 +24,22 @@ The Conda environment containing the Python version and required packages is
 stored in `env.yml`. In order to replicate this environment, run either one of
 these two commands in the command line:
 
-1. if you want to keep the env name global-climate-analysis:
+if you want to keep the environment name global-data-toolkit:
 
 ```bash
  conda env create -f env.yml
 ```
 
-2. or if you want to set your own env name:
+or, if you want to set your own environment name:
 
 ```bash
- conda env create -f environment.yml -n my_new_env_name
+ conda env create -f environment.yml -n new_env_name
 ```
 
 ### Installing the Package in Editable Mode 💾
 
-In order to import the `globalclimateanalysis` package in python scripts and
-notebooks, or to run its unit tests, we need to make the module visible by these
+In order to import the `globaldatatoolkit` package in python scripts, jupyter
+notebooks, or to run its unit tests, we need to make the module visible to these
 processes by installing the package using `pip`:
 
 ```bash
@@ -43,29 +52,30 @@ import the package.
 
 ## Testing 🧪
 
-### Testing File Structure 🗂️
+### Unit Tests 🗂️
 
-The unit tests for the `globalclimateanalysis` package are contained in
-`tests/`, with tests for each subpackage in relevant folders within `tests`.
+The unit tests for the `globaldatatoolkit` package are contained in `tests/`,
+with tests for each subpackage in subpackage-named folders within `tests`.
 
-### Running Tests ▶️
+#### Running Tests ▶️
 
-In order to run all unit tests for the `globalclimateanalysis` package from the
+In order to run all unit tests for the `globaldatatoolkit` package from the
 `tests/` directory, run this command from the root of the repository:
 
 ```bash
 python -m unittest discover tests -v
 ```
 
-In order to run all unit tests for a specific subpackage such as `dataset`, run:
+In order to run all unit tests for a specific subpackage such as
+`globaldatatoolkit.dataloaders`, run:
 
 ```bash
-python -m unittest discover tests.dataset -v
+python -m unittest discover tests.dataloaders -v
 ```
 
 In order to run a specific test file (which usually corresponds to a module of a
 subpackage), run:
 
 ```bash
-python -m unittest -v tests.dataset.test_csvfieldmap
+python -m unittest -v tests.dataloaders.test_bycountry
 ```

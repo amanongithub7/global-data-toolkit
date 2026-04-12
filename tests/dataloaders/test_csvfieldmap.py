@@ -1,6 +1,6 @@
 import unittest
 
-from globalclimateanalysis.dataset import csvfieldmap
+from globaldatatoolkit.dataloaders import csvfieldmap
 
 
 class TestConvertCsvFieldNameToSnakeCase(unittest.TestCase):

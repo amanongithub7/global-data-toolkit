@@ -3,9 +3,9 @@ requires = ["setuptools >= 77.0.3"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "globalclimateanalysis"
+name = "globaldatatoolkit"
 requires-python = ">= 3.0"
-description = "Analyzing global climate trends from country-specific records between 2000 and 2024."
+description = "Modules for simplifying processes such as data loading for global datasets."
 readme = "README.md"
 version = "0.1.0.dev0"
 
@@ -17,7 +17,7 @@ where = ["src"] # find and index packages from src/
 
 [tool.basedpyright]
 venvPath = " /opt/miniconda3/envs"
-venv = "global-climate-analysis"
+venv = "global-data-toolkit"
 
 [tool.basedpyright.analysis]
 typeCheckingMode = "standard"

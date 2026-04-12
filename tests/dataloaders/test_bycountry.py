@@ -6,7 +6,7 @@ from collections.abc import Mapping
 
 import pandas as pd
 
-from globalclimateanalysis.dataset import bycountry
+from globaldatatoolkit.dataloaders import bycountry
 
 
 class TestGeneratorInit(unittest.TestCase):
@@ -381,12 +381,12 @@ class TestGeneratorGenerate(unittest.TestCase):
             g = bycountry.Generator("valid_csv_8_countries.csv")
 
             with self.assertLogs(
-                "globalclimateanalysis.dataset.bycountry", "INFO"
+                "globaldatatoolkit.dataloaders.bycountry", "INFO"
             ) as cm:
                 g.generate()
 
             self.assertTrue(
-                "INFO:globalclimateanalysis.dataset.bycountry:Generated files already exist in"
+                "INFO:globaldatatoolkit.dataloaders.bycountry:Generated files already exist in"
                 in cm.output[0]
             )
 

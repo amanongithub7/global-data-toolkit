@@ -219,8 +219,8 @@ class DataLoader:
 
     Example
     --------
-    >>> from globalclimateanalysis.bycountry import DataLoader
-    >>> per_country_data_loader = DataLoader("./climate_data.csv")
+    >>> from globaldatatoolkit.dataloaders import bycountry
+    >>> per_country_data_loader = bycountry.DataLoader("./climate_data.csv")
     >>> country_data = per_country_data_loader.load()
     >>> type(country_data)
     Dict[str, pandas.DataFrame]
