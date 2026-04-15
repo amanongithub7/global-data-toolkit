@@ -23,3 +23,9 @@ venv = "global-data-toolkit"
 typeCheckingMode = "standard"
 autoSearchPaths = true
 useLibraryCodeForTypes = true
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"  # for numpy-style docstrings
+
+[tool.ruff.lint]
+select = ["D"]  # enable docstring checks
