@@ -1,7 +1,12 @@
+"""Country-specific data loading functionality.
+
+This module provides tools for loading and processing country-specific
+datasets from CSV files.
+"""
+
 import logging
 import os
 import shutil
-from collections.abc import Mapping
 
 import pandas as pd
 
@@ -26,6 +31,7 @@ class Generator:
         a DataFrame containing the unfiltered, raw csv data
     bycountry_data_dir : str
         the directory where generated per-country csv files should be stored, defaults to "./data/bycountry/" when a path is not provided upon class init
+
     Methods
     -------
     _files_already_exist() --> bool:
@@ -55,6 +61,7 @@ class Generator:
             path of the main csv file with climate data of different countries.
         data_dir: str, optional
             directory where the bycountry/ folder of csvs should be created, defaults to "./data".
+
         Raises
         ------
         ValueError
@@ -62,7 +69,6 @@ class Generator:
         FileNotFoundError
             if the file indicated by csv_file_path doesn't exist, or the directory indicated by data_dir doesn't exist.
         """
-
         # if the file extension is not ".csv", a ValueError is raised since this module only accepts csv type files
         _, ext = os.path.splitext(csv_file_path)
         if ext != ".csv":
@@ -111,6 +117,7 @@ class Generator:
         number and names of countries in the main csv file.
 
         Note: this doesn't check the contents or lengths of the csv files.
+
         Returns
         -------
         True if {data_dir}/bycountry/ exists and contains exactly the same countries as in the main csv.
@@ -145,7 +152,6 @@ class Generator:
 
         Remove any files inside the directory.
         """
-
         if not os.path.isdir(self.bycountry_data_dir):
             return
 
@@ -232,18 +238,19 @@ class DataLoader:
     def __init__(
         self, csv_path: str, data_generation_dir: str | os.PathLike[str] = "./data"
     ):
+        """Generate per-country csv files for loading."""
         g = Generator(csv_path, data_generation_dir)
         self.storage_dir, self.countries = g.generate()
 
     def load(self):
-        """load per-country data into runtime memory as pandas.DataFrame objects
+        """Load per-country data into runtime memory as pandas.DataFrame objects.
 
         Returns
         -------
-        Mapping[str, pandas.DataFrame]
+        dict[str, pandas.DataFrame]
             country to country data dictionary
         """
-        data_map: Mapping[str, pd.DataFrame] = {}
+        data_map: dict[str, pd.DataFrame] = {}
         for country in self.countries:
             csv_path = os.path.join(self.storage_dir, country + ".csv")
             country_df = pd.read_csv(csv_path)
