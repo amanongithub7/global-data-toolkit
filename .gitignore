@@ -17,3 +17,6 @@ docs/dev/tests-refactor.md
 
 # jupyter notebook checkpoints
 notebooks/.ipynb_checkpoints
+
+# mkdocs generated docs website
+site/
