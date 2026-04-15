@@ -1,0 +1,30 @@
+site_name: "Global Data Toolkit API Reference"
+site_url: "https://amanongithub7.github.io/global-data-toolkit/"
+repo_url: "https://github.com/amanongithub7/global-data-toolkit"
+
+theme:
+  name: "material"
+
+plugins:
+  - search # built-in search functionality
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            # tell mkdocstrings to parse NumPy-style docstrings
+            docstring_style: numpy
+            show_source: true # add a link to the source code
+            show_root_heading: true # show the function/class name as the heading
+            filters:
+              - "!^__annotate_func__" # Skip this specific method
+            inherited_members: false # Don't document inherited members
+            show_source: false  # Add this line
+  # automatically generate the navigation for API docs
+  - api-autonav:
+      # point to the directory where your package's source code lives
+      modules: ["src/globaldatatoolkit"]
+      nav_section_title: "API Reference"
+
+nav:
+  - Home: index.md
+  # 'api-autonav' plugin automatically populates this section
