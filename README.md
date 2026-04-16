@@ -9,6 +9,9 @@ Currently, it's main module is the `bycountry` module of the `dataset`
 subpackage, which exposes a `DataLoader` interface for loading global datasets
 as per-country `pandas.DataFrames` in runtime memory.
 
+Refer to the [API Documentation](https://amanongithub7.github.io/global-data-toolkit/)
+for more information about the available functionality.
+
 Refer to `example_notebooks/__subpackage__/` for jupyter notebooks with sample
 usage of different modules.
 
