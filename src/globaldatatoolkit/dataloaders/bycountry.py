@@ -223,7 +223,7 @@ class DataLoader:
     storage_dir : str
         path of directory in which csv files of individual countries are stored
 
-    Example
+    Examples
     --------
     >>> from globaldatatoolkit.dataloaders import bycountry
     >>> per_country_data_loader = bycountry.DataLoader("./climate_data.csv")
