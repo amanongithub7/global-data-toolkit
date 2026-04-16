@@ -14,3 +14,5 @@ Available subpackages
 dataset
     Data loader for country-specific pandas.DataFrame objects from a main csv
 """
+
+__version__ = "0.1.0"
